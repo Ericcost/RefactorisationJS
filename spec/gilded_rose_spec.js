@@ -110,9 +110,21 @@ describe("Gilded Rose Service", function() {
 // The quality of the product shouldn't be more than 50 
 
 it ("The quality of the product shouldn't be more than 50 ", function() {
-  const gildedRose = new Shop([new Item("Elixir of the Mongoose", 5, 49)]);
+  const gildedRose = new Shop([new Item("Aged Brie", 5, 50), new Item("Backstage passes to a TAFKAL80ETC concert", 3, 47), new Item("Backstage passes to a TAFKAL80ETC concert", 2, 49)]);
   const items = gildedRose.updateQuality();
-  expect(items[0]).toEqual(new Item("Elixir of the Mongoose", 4, 50));
+  expect(items[0]).toEqual(new Item("Aged Brie", 4, 50));
+  expect(items[1]).toEqual(new Item("Backstage passes to a TAFKAL80ETC concert", 2, 50));
+  expect(items[2]).toEqual(new Item("Backstage passes to a TAFKAL80ETC concert", 1, 50));
+})
+
+// Conjured Test
+
+it ("Conjured items degrade in Quality twice as fast as normal items", function() {
+  const gildedRose = new Shop([new Item("Conjured lolipop", 5, 50), new Item("Conjured Backstage passes to a TAFKAL80ETC concert", 1, 15), new Item("Conjured symfony", 0, 6)]);
+  const items = gildedRose.updateQuality();
+  expect(items[0]).toEqual(new Item("Conjured lolipop", 4, 48));
+  expect(items[1]).toEqual(new Item("Conjured Backstage passes to a TAFKAL80ETC concert", 0, 13));
+  expect(items[2]).toEqual(new Item("Conjured symfony", -1, 2));
 })
 
 });
